@@ -8,10 +8,24 @@
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="437dp"
-        android:layout_height="match_parent"
+        android:layout_width="389dp"
+        android:layout_height="454dp"
         android:src="@drawable/far"
         android:layout_gravity="center" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="START TIMER"
+        android:id="@+id/buttonReset"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/timeElapsed"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>
 
