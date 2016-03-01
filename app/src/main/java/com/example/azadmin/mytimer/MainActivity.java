@@ -20,6 +20,9 @@ public class MainActivity extends Activity implements SensorEventListener {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.content_main);
+/*
+    Demonstrate how to initiate a SENSOR_SERVICE, PROXIMITY sensor in this case
+ */
             mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
             mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
             iv = (ImageView) findViewById(R.id.imageView1);
@@ -43,7 +46,9 @@ public class MainActivity extends Activity implements SensorEventListener {
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
         }
-
+/*
+    examining SensorEvent 
+ */
         @Override
         public void onSensorChanged(SensorEvent event) {
             if (event.values[0] == 0){
