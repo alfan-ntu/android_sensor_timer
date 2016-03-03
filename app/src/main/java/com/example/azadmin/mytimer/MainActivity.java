@@ -7,6 +7,9 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements SensorEventListener {
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
         private SensorManager mSensorManager;
         private Sensor mSensor;
         private ImageView iv;
@@ -96,9 +99,28 @@ public class MainActivity extends Activity implements SensorEventListener {
             }
         }
 
-/*
-    CountDownTimer class
- */
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+            return true;
+        }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.action_settings){
+            Toast.makeText(this, "Setting menu...", Toast.LENGTH_LONG).show();
+        } else if (id == R.id.action_help){
+            Toast.makeText(this, "Help menu...", Toast.LENGTH_LONG).show();
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    /*
+            CountDownTimer class
+         */
         public class MyCountDownTimer extends CountDownTimer
         {
              public MyCountDownTimer(long startTime, long interval){
