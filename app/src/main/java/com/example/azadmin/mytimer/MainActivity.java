@@ -1,12 +1,14 @@
 package com.example.azadmin.mytimer;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         private long timeElapsed;
         private final long startTime = 50000;
         private final long interval = 1000;
+        private static final int REQUEST_TAKE_PHOTO = 1;
 
 /*
     Per http://developer.android.com/reference/android/app/Activity.html
@@ -57,9 +60,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
  */
 
             timerValueEditText = (EditText) findViewById(R.id.timerValueField);
-//            startTimeInSec = Integer.parseInt(timerValueEditText.getText().toString());
-//            Log.d("Start Time in Sec.", timerValueEditText.getText().toString());
-//            myCountDownTimer = new MyCountDownTimer(startTime, interval);
             buttonStartReset = (Button) findViewById(R.id.buttonReset);
             buttonStartReset.setOnClickListener(new View.OnClickListener(){
                     @Override
@@ -129,9 +129,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         int id = item.getItemId();
 
         if(id == R.id.action_settings){
-            Toast.makeText(this, "Setting menu...", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Setting menu...", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.action_help){
-            Toast.makeText(this, "Help menu...", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Help menu...", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.action_camera) {
+            Toast.makeText(this, "Camera...", Toast.LENGTH_SHORT).show();
+/*
+    Demonstrate how to capture image
+ */
+            Intent intent = new Intent();
+            intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intent, REQUEST_TAKE_PHOTO);
+            Log.d("maoyi debug", MediaStore.ACTION_IMAGE_CAPTURE);
         }
         return super.onOptionsItemSelected(item);
 
