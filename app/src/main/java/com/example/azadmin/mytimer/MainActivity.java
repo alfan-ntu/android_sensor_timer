@@ -8,6 +8,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,9 +28,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         private Button buttonStartReset;
         private MyCountDownTimer myCountDownTimer;
 
+        private EditText timerValueEditText;
+        private long startTimeInSec;
+
         private long timeElapsed;
         private final long startTime = 50000;
         private final long interval = 1000;
+
+/*
+    Per http://developer.android.com/reference/android/app/Activity.html
+    onCreate(Bundle) is where you initialize your activity. Most importantly, here you will usually
+    call setContentView(int) with a layout resource defining your UI, and using findViewById(int)
+    to retrieve the widgets in that UI that you need to interact with programmatically.
+*/
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -45,16 +56,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     Demonstrate how to setup a CountDownTimer
  */
 
-            myCountDownTimer = new MyCountDownTimer(startTime, interval);
-
+            timerValueEditText = (EditText) findViewById(R.id.timerValueField);
+//            startTimeInSec = Integer.parseInt(timerValueEditText.getText().toString());
+//            Log.d("Start Time in Sec.", timerValueEditText.getText().toString());
+//            myCountDownTimer = new MyCountDownTimer(startTime, interval);
             buttonStartReset = (Button) findViewById(R.id.buttonReset);
             buttonStartReset.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
                         if(!timerHasStarted) {
+                            startTimeInSec = Integer.parseInt(timerValueEditText.getText().toString());
+                            Log.d("Start Time in Sec.", timerValueEditText.getText().toString());
+
+                            myCountDownTimer = new MyCountDownTimer(startTimeInSec * 1000, interval);
+
                             myCountDownTimer.start();
                             timerHasStarted = true;
-                            buttonStartReset.setText("START TIMER");
+                            buttonStartReset.setText("PAUSE TIMER");
+
                         } else {
                             myCountDownTimer.cancel();
                             timerHasStarted = false;
@@ -123,20 +142,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
          */
         public class MyCountDownTimer extends CountDownTimer
         {
-             public MyCountDownTimer(long startTime, long interval){
+            public MyCountDownTimer(long startTime, long interval){
                  super(startTime, interval);
              }
 
             @Override
             public void onFinish() {
                 timeRemainView.setText("Time's up!");
-                timeElapsedView.setText("Time Elapsed: " + String.valueOf(startTime / 1000) + " sec");
+                timeElapsedView.setText("Time Elapsed: " + String.valueOf(startTimeInSec / 1000) + " sec");
             }
 
             @Override
             public void onTick(long millisUntilFinished) {
                 timeRemainView.setText("Time remain: " + String.valueOf(millisUntilFinished / 1000) + " sec" );
-                timeElapsed = startTime - millisUntilFinished;
+                timeElapsed = startTimeInSec * 1000 - millisUntilFinished;
                 timeElapsedView.setText("time elapsed: " + String.valueOf(timeElapsed / 1000) + " sec");
             }
         }

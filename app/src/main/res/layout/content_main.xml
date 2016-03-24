@@ -13,12 +13,38 @@
         android:src="@drawable/far"
         android:layout_gravity="center" />
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="START TIMER"
-        android:id="@+id/buttonReset"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Timer Value (sec)"
+            android:id="@+id/timerValueLabel"
+            android:layout_marginLeft="30dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/timerValueField"
+            android:layout_weight="1"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:text="50" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="START TIMER"
+            android:id="@+id/buttonReset"
+            android:layout_marginRight="30dp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -30,14 +56,17 @@
             android:layout_height="wrap_content"
             android:text="Time remain"
             android:id="@+id/timeRemain"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Time Elapsed"
             android:id="@+id/timeElapsed"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_marginTop="20dp" />
     </LinearLayout>
 
 </LinearLayout>
