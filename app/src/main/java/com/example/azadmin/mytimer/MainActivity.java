@@ -2,10 +2,12 @@ package com.example.azadmin.mytimer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
@@ -135,20 +137,38 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         } else if (id == R.id.action_camera) {
             Toast.makeText(this, "Camera...", Toast.LENGTH_SHORT).show();
 /*
-    Demonstrate how to capture image
+    Demonstrate how to capture image and use resolveActivity to protect invalid
+    call to startActivityForResult();
  */
             Intent intent = new Intent();
             intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(intent, REQUEST_TAKE_PHOTO);
-            Log.d("maoyi debug", MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Utils.getPhotoUri());
+            if (intent.resolveActivity(getPackageManager()) != null){
+                startActivityForResult(intent, REQUEST_TAKE_PHOTO);
+                Log.d("maoyi debug", MediaStore.ACTION_IMAGE_CAPTURE);
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_TAKE_PHOTO) {
+            if (resultCode == RESULT_OK){
+/*
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                iv.setImageBitmap(imageBitmap);
+*/              Uri uri = Utils.getPhotoUri();
+                iv.setImageURI(uri);
+            }
+        }
     }
 
     /*
-            CountDownTimer class
-         */
+                CountDownTimer class
+             */
         public class MyCountDownTimer extends CountDownTimer
         {
             public MyCountDownTimer(long startTime, long interval){
