@@ -130,8 +130,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.action_settings){
-            Toast.makeText(this, "Setting menu...", Toast.LENGTH_SHORT).show();
+        if(id == R.id.action_read_qrcode){
+            Toast.makeText(this, "Go to QR Code Reader...", Toast.LENGTH_SHORT).show();
+            Intent qrCodeReaderIntent = new Intent();
+
+            qrCodeReaderIntent.setClass(this, QRCodeReaderActivity.class);
+            startActivity(qrCodeReaderIntent);
+            
         } else if (id == R.id.action_help){
             Toast.makeText(this, "Help menu...", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.action_camera) {
@@ -145,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Utils.getPhotoUri());
             if (intent.resolveActivity(getPackageManager()) != null){
                 startActivityForResult(intent, REQUEST_TAKE_PHOTO);
-                Log.d("maoyi debug", MediaStore.ACTION_IMAGE_CAPTURE);
+                Log.d("Maoyi debug", MediaStore.ACTION_IMAGE_CAPTURE);
             }
         }
         return super.onOptionsItemSelected(item);
@@ -156,12 +161,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO) {
             if (resultCode == RESULT_OK){
-/*
-                Bundle extras = data.getExtras();
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                iv.setImageBitmap(imageBitmap);
-*/              Uri uri = Utils.getPhotoUri();
+
+                Uri uri = Utils.getPhotoUri();
                 iv.setImageURI(uri);
+                Log.d("Maoyi Debug", uri.toString());
+
             }
         }
     }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item android:id="@+id/action_camera" android:title="@string/action_camera"
         android:orderInCategory="100" app:showAsAction="ifRoom" />
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+    <item android:id="@+id/action_read_qrcode" android:title="Read QR"
         android:orderInCategory="101" app:showAsAction="ifRoom" />
     <item android:id="@+id/action_help" android:title="@string/action_help"
         android:orderInCategory="102" app:showAsAction="ifRoom" />
