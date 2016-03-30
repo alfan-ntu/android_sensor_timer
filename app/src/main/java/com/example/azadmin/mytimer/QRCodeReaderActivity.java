@@ -2,6 +2,8 @@ package com.example.azadmin.mytimer;
 
 import android.app.Activity;
 import android.graphics.PointF;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,6 +18,7 @@ public class QRCodeReaderActivity extends Activity implements QRCodeReaderView.O
 
     private TextView myTextView;
     private QRCodeReaderView myQRDecoderView;
+    private ToneGenerator toneG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,8 @@ public class QRCodeReaderActivity extends Activity implements QRCodeReaderView.O
         myQRDecoderView.setOnQRCodeReadListener(this);
 
         myTextView = (TextView) findViewById(R.id.exampleTextView);
+
+        toneG = new ToneGenerator(AudioManager.STREAM_DTMF, 100);
 
  /*
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -44,6 +49,7 @@ public class QRCodeReaderActivity extends Activity implements QRCodeReaderView.O
 
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
+        toneG.startTone(ToneGenerator.TONE_DTMF_0, 200);
         myTextView.setText(text);
     }
 
