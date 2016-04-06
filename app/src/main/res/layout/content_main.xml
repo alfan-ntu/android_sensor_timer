@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:text="Timer Value (sec)"
             android:id="@+id/timerValueLabel"
-            android:layout_marginLeft="30dp" />
+            android:layout_marginLeft="10dp" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -33,8 +33,8 @@
             android:ems="10"
             android:id="@+id/timerValueField"
             android:layout_weight="1"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:text="50" />
 
         <Button
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:text="START TIMER"
             android:id="@+id/buttonReset"
-            android:layout_marginRight="30dp" />
+            android:layout_marginRight="10dp" />
 
     </LinearLayout>
 

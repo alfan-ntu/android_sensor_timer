@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,9 +30,9 @@ public class QRCodeReaderActivity extends Activity implements QRCodeReaderView.O
         myQRDecoderView.setOnQRCodeReadListener(this);
 
         myTextView = (TextView) findViewById(R.id.exampleTextView);
-
         toneG = new ToneGenerator(AudioManager.STREAM_DTMF, 100);
 
+        Log.d("Maoyi Debug", "qrCodeReaderActivity successfully initialized");
  /*
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -49,8 +50,17 @@ public class QRCodeReaderActivity extends Activity implements QRCodeReaderView.O
 
     @Override
     public void onQRCodeRead(String text, PointF[] points) {
+        String qrCodeString;
         toneG.startTone(ToneGenerator.TONE_DTMF_0, 200);
-        myTextView.setText(text);
+
+        qrCodeString = text.substring(0, 10);
+        myTextView.setText(qrCodeString);
+//        myTextView.setText(text);
+
+/*
+    Examine QRCode contents here
+ */
+
     }
 
     // Called when your device have no camera

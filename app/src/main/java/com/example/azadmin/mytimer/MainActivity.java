@@ -2,6 +2,7 @@ package com.example.azadmin.mytimer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -11,6 +12,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -21,6 +25,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.jar.Manifest;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
         private SensorManager mSensorManager;
@@ -39,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         private final long startTime = 50000;
         private final long interval = 1000;
         private static final int REQUEST_TAKE_PHOTO = 1;
+        private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
+
 
 /*
     Per http://developer.android.com/reference/android/app/Activity.html
@@ -57,6 +65,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
             mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
             iv = (ImageView) findViewById(R.id.imageView1);
+
+/*
+    Check permission required
+    Since Android 6.0 (API level 23), dangerous permission has to be granted explicitly at running time
+ */
+
+            int permissionCheck = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA);
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                Log.d("Maoyi Debug", "Camera permission not granted, requesting required permission...");
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA},
+                    MY_PERMISSIONS_REQUEST_CAMERA);
+            } else {
+                Log.d("Maoyi Debug", "Camera permission granted");
+            }
 /*
     Demonstrate how to setup a CountDownTimer
  */
@@ -93,6 +115,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
 
         @Override
+        public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            switch (requestCode) {
+                case MY_PERMISSIONS_REQUEST_CAMERA: {
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        Log.d("Maoyi debug", "Permission to access camera granted");
+                    } else {
+                        Log.d("Maoyi debug", "Permission to access camera denied");
+                    }
+                }
+            }
+
+        }
+
+
+
+    @Override
         protected void onResume() {
             super.onResume();
             mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
@@ -136,7 +175,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             qrCodeReaderIntent.setClass(this, QRCodeReaderActivity.class);
             startActivity(qrCodeReaderIntent);
-            
         } else if (id == R.id.action_help){
             Toast.makeText(this, "Help menu...", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.action_camera) {
@@ -170,9 +208,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    /*
-                CountDownTimer class
-             */
+     /*
+                    CountDownTimer class
+                 */
         public class MyCountDownTimer extends CountDownTimer
         {
             public MyCountDownTimer(long startTime, long interval){
